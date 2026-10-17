@@ -15,10 +15,15 @@ SWAP_MB=${SWAP_MB:-2048}
 
 [ "$(id -u)" -eq 0 ] || { echo "请用 root 运行（sudo bash $0）"; exit 1; }
 
-echo "==> 1/5 基础软件"
+echo "==> 1/5 基础软件与时区"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
 apt-get install -y -qq ca-certificates curl gnupg git openssl >/dev/null
+# 云镜像默认 UTC。业务逻辑自己带 tz（schedules 里硬编码 Asia/Shanghai），
+# 这里只影响 date / 日志时间戳，但排查故障时差 8 小时很容易看错。
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+echo "Asia/Shanghai" > /etc/timezone
+echo "    $(date '+%Y-%m-%d %H:%M:%S %Z')"
 
 echo "==> 2/5 Docker"
 if command -v docker >/dev/null 2>&1; then
@@ -27,6 +32,20 @@ else
   curl -fsSL https://get.docker.com | sh
 fi
 systemctl enable --now docker
+# 日志轮转：worker 每小时跑一轮，不限制的话 json-file 会一直涨，几个月后把磁盘吃满。
+# 只在没有 daemon.json 时写，避免覆盖用户已有的配置。
+if [ ! -f /etc/docker/daemon.json ]; then
+  cat > /etc/docker/daemon.json <<'JSON'
+{
+  "log-driver": "json-file",
+  "log-opts": { "max-size": "10m", "max-file": "3" }
+}
+JSON
+  systemctl restart docker
+  echo "    已配置日志轮转（单容器最多 30MB）"
+else
+  echo "    /etc/docker/daemon.json 已存在，未改动"
+fi
 
 echo "==> 3/5 swap"
 if swapon --show | grep -q .; then
