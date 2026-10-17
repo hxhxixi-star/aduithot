@@ -33,18 +33,18 @@ const lose = (s: string, at: number, n: number) => s.slice(0, at) + "\uFFFD".rep
 const title = `维密重回上海淮海路，中国市场进入扩店阶段 ${T}`;
 const garbledLoads = [[title, story], [title, lose(story, 120, 3)], [lose(title, 2, 2), lose(story, 700, 2)]];
 let garbledLoad = 0;
-// A trimmed copy of the DeepSeek API changelog (Docusaurus): each date heading, in either of the two
+// A trimmed copy of the SLCP 工具更新日志 (Docusaurus): each date heading, in either of the two
 // label styles the page uses, is followed by the update headings that belong to it.
 const heading = (level: number, id: string, text: string) =>
   `<h${level} class="anchor" id="${id}">${text}<a href="#${id}" class="hash-link" title="${text}的直接链接">\u200b</a></h${level}>`;
 const changelog = `<!doctype html><html><body><article><div class="theme-doc-markdown markdown"><div class="row"><div class="col"><h1>更新日志</h1><hr>
 ${heading(2, "时间-2026-09-10", "时间: 2026-09-10")}
-${heading(3, "deepseek-v41-flash-发布", `DeepSeek-V4.1-Flash 发布 ${T}`)}<p>今天，我们正式发布 DeepSeek-V4.1-Flash 模型。</p>
+${heading(3, "slcp-v41-工具包-发布", `SLCP 工具包 v4.1 发布 ${T}`)}<p>今天，我们正式发布 SLCP 工具包 v4.1。</p>
 ${heading(2, "时间-2025-12-01", "时间: 2025-12-01")}
-${heading(3, "deepseek-v32", `DeepSeek-V3.2 ${T}`)}<p>DeepSeek-V3.2 正式版上线。</p>
-${heading(3, "deepseek-v32-speciale", `DeepSeek-V3.2-Speciale ${T}`)}<p>DeepSeek-V3.2-Speciale 临时接口上线。</p>
+${heading(3, "slcp-v32", `SLCP 工具包 v3.2 ${T}`)}<p>SLCP 工具包 v3.2 正式版上线。</p>
+${heading(3, "slcp-v32-shixing", `SLCP 工具包 v3.2 试行版 ${T}`)}<p>SLCP 工具包 v3.2 试行版上线。</p>
 ${heading(2, "时间2024-05-17", "时间：2024-05-17")}
-${heading(3, "deepseek-chat-4", `deepseek-chat ${T}`)}<p>deepseek-chat 模型升级为 DeepSeek-V2-0517。</p>
+${heading(3, "slcp-自查清单-4", `slcp 自查清单 ${T}`)}<p>slcp 自查清单升级为 v2.0。</p>
 </div></div></div></article></body></html>`;
 const server = http.createServer((req, res) => {
   if (req.url === "/updates/") {
@@ -111,10 +111,10 @@ test("a changelog's date headings date its updates and are no articles themselve
   assert.deepEqual(
     rows.map((r) => [decodeURIComponent(r.url.replace(/^.*#/, "#")), r.title.replace(` ${T}`, ""), r.published_at?.toISOString()]),
     [
-      ["#deepseek-v41-flash-发布", "DeepSeek-V4.1-Flash 发布", "2026-09-09T16:00:00.000Z"],
-      ["#deepseek-v32", "DeepSeek-V3.2", "2025-11-30T16:00:00.000Z"],
-      ["#deepseek-v32-speciale", "DeepSeek-V3.2-Speciale", "2025-11-30T16:00:00.000Z"],
-      ["#deepseek-chat-4", "deepseek-chat", "2024-05-16T16:00:00.000Z"],
+      ["#slcp-v41-工具包-发布", "SLCP 工具包 v4.1 发布", "2026-09-09T16:00:00.000Z"],
+      ["#slcp-v32", "SLCP 工具包 v3.2", "2025-11-30T16:00:00.000Z"],
+      ["#slcp-v32-shixing", "SLCP 工具包 v3.2 试行版", "2025-11-30T16:00:00.000Z"],
+      ["#slcp-自查清单-4", "slcp 自查清单", "2024-05-16T16:00:00.000Z"],
     ],
   );
 });

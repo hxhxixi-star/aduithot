@@ -69,7 +69,7 @@ test('withdrawing a named lead preserves the replacement headline and its own fr
 
 test('a historical written daily lead follows withdrawal of the citation it describes', async (t) => {
   t.mock.timers.enable({ apis: ['Date'], now: Date.now() + 1_200_002 });
-  const removed = await citation('历史模型发布与能力升级');
+  const removed = await citation('历史标准更新与能力升级');
   const replacement = await citation('新的安全工具发布');
   const key = '2096-01-02';
   await issue('daily', key, { lead: { title: removed.title, leadParagraph: removed.summary }, highlights: [replacement.itemId], sections: [{ label: 'News', items: [removed, replacement] }] });

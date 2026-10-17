@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { runInNewContext } from "node:vm";
-import { APPEARANCE_BOOT_SCRIPT, exportBundle, getFontPreference, importBundle, KEYS, setFontPreference } from "../apps/web/app/lib/local-state.ts";
+import { APPEARANCE_BOOT_SCRIPT, DEFAULT_THEME, exportBundle, getFontPreference, importBundle, KEYS, setFontPreference } from "../apps/web/app/lib/local-state.ts";
 
 class MemoryStorage {
   values = new Map<string, string>();
@@ -19,12 +19,13 @@ test("appearance startup applies a saved browser font before rendering and safel
   for (const font of ["browser", "bad", null, "denied"]) {
     const attributes: Record<string, string> = {};
     runInNewContext(APPEARANCE_BOOT_SCRIPT, {
-      localStorage: { getItem: (key: string) => { if (font === "denied") throw new Error("blocked"); return key === KEYS.font ? font : "dark"; } },
+      localStorage: { getItem: (key: string) => { if (font === "denied") throw new Error("blocked"); return key === KEYS.font ? font : "light"; } },
       window: { matchMedia: () => ({ matches: false }) },
       document: { documentElement: { setAttribute: (key: string, value: string) => { attributes[key] = value; } }, querySelectorAll: () => [] },
     });
     assert.equal(attributes["data-font"], font === "browser" ? "browser" : "system");
-    assert.equal(attributes["data-theme"], font === "denied" ? "light" : "dark");
+    // A saved theme wins; storage that cannot be read still lands on the site's own default.
+    assert.equal(attributes["data-theme"], font === "denied" ? DEFAULT_THEME : "light");
   }
 });
 

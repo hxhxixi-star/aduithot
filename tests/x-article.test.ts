@@ -36,8 +36,8 @@ const socialdata = await stub((_hit, req) => {
     articleCalls.push(article);
     // Looked up by the post's id; the post without one answers with the post alone.
     return article === WITH_ARTICLE
-      ? { id_str: article, article: { title: "To Seek a Newer World", content_state: { blocks: [
-          { type: "unstyled", text: "World Labs is joining AMD." }, { type: "atomic", text: " " }, { type: "header-two", text: "Why" }, { type: "blockquote", text: "Come, my friends" },
+      ? { id_str: article, article: { title: "A Newer Sourcing Standard", content_state: { blocks: [
+          { type: "unstyled", text: "Intertek is joining the ZDHC programme." }, { type: "atomic", text: " " }, { type: "header-two", text: "Why" }, { type: "blockquote", text: "Come, my friends" },
         ] } } }
       : { id_str: article };
   }
@@ -71,14 +71,14 @@ test("a post that links an X Article waits for extraction, which brings the arti
   assert.deepEqual(articleCalls.filter((c) => c === WITH_ARTICLE), [WITH_ARTICLE], "looked up by the post's own id, not the link's number");
   const [a] = await sql<{ title: string; body_text: string; body_status: string; revision: number; x_article: { title: string; text: string } }[]>`
     SELECT title, body_text, body_status, revision, x_article FROM articles WHERE id = ${id}`;
-  assert.equal(a!.title, "To Seek a Newer World", "a bare link takes the article's title");
+  assert.equal(a!.title, "A Newer Sourcing Standard", "a bare link takes the article's title");
   assert.equal(a!.body_status, "ok");
   assert.equal(a!.revision, 2);
-  assert.equal(a!.x_article.text, "World Labs is joining AMD.\n\n## Why\n\n> Come, my friends");
-  assert.match(a!.body_text, /^https:\/\/x\.com\/i\/article\/777\n\n# To Seek a Newer World\n\nWorld Labs is joining AMD\./);
+  assert.equal(a!.x_article.text, "Intertek is joining the ZDHC programme.\n\n## Why\n\n> Come, my friends");
+  assert.match(a!.body_text, /^https:\/\/x\.com\/i\/article\/777\n\n# A Newer Sourcing Standard\n\nIntertek is joining the ZDHC programme\./);
 
   const input = (await loadAnalyzeInput(id))!;
-  assert.match(String(input.xPost!.text), /【X 长文】To Seek a Newer World\n\nWorld Labs is joining AMD\./, "every judging step reads the article");
+  assert.match(String(input.xPost!.text), /【X 长文】A Newer Sourcing Standard\n\nIntertek is joining the ZDHC programme\./, "every judging step reads the article");
   assert.doesNotMatch(renderContext(input), /正文未抓到/);
 
   // The same post read again (a later search, an overlap) is the version already seen.
