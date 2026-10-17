@@ -1,0 +1,59 @@
+# 推送到 main 后：先类型检查，通过再 SSH 到服务器重建并重启。
+#
+# 需要在仓库 Settings → Secrets and variables → Actions 里配置三个 secret：
+#   DEPLOY_HOST     服务器 IP
+#   DEPLOY_USER     SSH 用户（一般是 root）
+#   DEPLOY_SSH_KEY  能登录这台机器的私钥（记得把公钥加到服务器 ~/.ssh/authorized_keys）
+#
+# 服务器上要已经完成首次部署：代码在 /srv/gsai，.env 已生成，容器跑起来过一次。
+# 首次部署见 EAGLE GSAI-发布上线指南.md。
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: 类型检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+
+  deploy:
+    name: 部署
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH 重建并重启
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          command_timeout: 30m
+          script_stop: true
+          script: |
+            set -e
+            cd /srv/gsai
+            git pull --ff-only
+            docker compose build
+            docker compose stop api worker web
+            docker compose run --rm setup
+            docker compose --profile https up -d
+            docker image prune -f
+            echo "--- 健康检查 ---"
+            docker compose ps
+            curl -fsS -o /dev/null -w "首页 %{http_code}\n" http://127.0.0.1:3000/
