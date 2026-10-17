@@ -1,6 +1,6 @@
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { IconMonitor, IconMoon, IconSun } from "../icons";
-import { applyTheme, resolvedTheme, setThemePreference, useThemePreference, type ThemePreference } from "../../lib/local-state";
+import { DEFAULT_THEME, applyTheme, resolvedTheme, setThemePreference, useThemePreference } from "../../lib/local-state";
 
 type Choice = "dark" | "system" | "light";
 
@@ -13,16 +13,14 @@ const OPTIONS: Array<{ key: Choice; label: string; icon: ReactNode }> = [
 /** Three-way appearance switch (dark / follow the system / light) with a sliding thumb. */
 export function ThemeSwitch({ className = "" }: { className?: string }) {
   const pref = useThemePreference();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const current: Choice = !mounted ? "system" : (pref ?? "system");
+  // A reader who never chose is already on the site's default, so that is what the switch shows.
+  const current: Choice = pref ?? DEFAULT_THEME;
   const index = OPTIONS.findIndex((o) => o.key === current);
 
   const choose = (key: Choice) => {
-    const nextPref: ThemePreference = key === "system" ? null : key;
     const apply = () => {
-      setThemePreference(nextPref);
-      applyTheme(resolvedTheme(nextPref), nextPref === null);
+      setThemePreference(key);
+      applyTheme(resolvedTheme(key), key === "system");
     };
     const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
     if (doc.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

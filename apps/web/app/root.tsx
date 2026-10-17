@@ -14,6 +14,7 @@ import { PullToRefresh } from "./components/shell/PullToRefresh";
 import { usePageTransition } from "./components/shell/transitions";
 import { SearchOverlay } from "./features/search/SearchOverlay";
 import { BackToTop, NavigationProgress } from "./components/shell/Chrome";
+import { NeuralField } from "./components/NeuralField";
 import { buttonClass } from "./components/ui/Controls";
 import { rememberPage, APPEARANCE_BOOT_SCRIPT, useAppearanceSync } from "./lib/local-state";
 import { apiGet } from "./lib/api.server";
@@ -54,8 +55,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         {documentRelease && <meta name="aihot-release" content={documentRelease} />}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf9f6" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13191c" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f2" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0e0e" />
         <meta name="apple-mobile-web-app-title" content={SITE.name} />
         <script dangerouslySetInnerHTML={{ __html: APPEARANCE_BOOT_SCRIPT }} />
         {webModules().map((m) => m.root?.bootScript && <script key={m.name} dangerouslySetInnerHTML={{ __html: m.root.bootScript }} />)}
@@ -86,6 +87,7 @@ function SiteShell({ changelogVersion, children }: { changelogVersion: string | 
   useEffect(() => setInteractive(true), []);
   return (
     <div className="flex min-h-dvh">
+      <NeuralField />
       <NavigationProgress active={navigation.state === "loading"} />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[70] focus:rounded-control focus:bg-surface focus:px-3 focus:py-2">
         跳到正文

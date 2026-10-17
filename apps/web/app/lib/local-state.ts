@@ -247,12 +247,16 @@ export function setFontPreference(pref: FontPreference) {
   emit(KEYS.font);
 }
 
-export type ThemePreference = "light" | "dark" | null;
+/** "system" follows the reader's OS; null means they never chose, which reads as the site's own default. */
+export type ThemePreference = "light" | "dark" | "system" | null;
 
 export function getThemePreference(): ThemePreference {
   const v = readRaw(KEYS.theme);
-  return v === "light" || v === "dark" ? v : null;
+  return v === "light" || v === "dark" || v === "system" ? v : null;
 }
+
+/** The theme a reader who never chose gets. This site sets its own default instead of following the OS. */
+export const DEFAULT_THEME = "dark" as const;
 
 export function setThemePreference(pref: ThemePreference) {
   writeRaw(KEYS.theme, pref);
@@ -260,15 +264,16 @@ export function setThemePreference(pref: ThemePreference) {
 }
 
 export function resolvedTheme(pref: ThemePreference = getThemePreference()): "light" | "dark" {
-  if (pref) return pref;
+  if (pref === "light" || pref === "dark") return pref;
+  if (!pref) return DEFAULT_THEME;
   try {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   } catch {
-    return "light";
+    return DEFAULT_THEME;
   }
 }
 
-const THEME_COLOR = { light: "#faf9f6", dark: "#13191c" } as const;
+const THEME_COLOR = { light: "#f4f4f2", dark: "#0d0e0e" } as const;
 
 /** Puts a theme on the page: the document's data-theme and the browser's theme colour. */
 export function applyTheme(theme: "light" | "dark", followsSystem: boolean) {
@@ -293,8 +298,9 @@ export function useAppearanceSync() {
   useEffect(() => {
     // Read the stored choice itself: during hydration the hook still reports the server's "none".
     const current = getThemePreference();
-    applyTheme(resolvedTheme(current), current === null);
-    if (current !== null) return;
+    applyTheme(resolvedTheme(current), current === "system");
+    // Only an explicit "follow the system" tracks the OS; the unchosen default stays put.
+    if (current !== "system") return;
     let query: MediaQueryList;
     try {
       query = window.matchMedia("(prefers-color-scheme: dark)");
@@ -308,7 +314,7 @@ export function useAppearanceSync() {
 }
 
 /** Inline script run before paint so the first frame already has the reader's appearance. */
-export const APPEARANCE_BOOT_SCRIPT = `(function(){var f='system';try{f=localStorage.getItem('${KEYS.font}')==='browser'?'browser':'system'}catch(e){}document.documentElement.setAttribute('data-font',f);try{var t=localStorage.getItem('${KEYS.theme}');if(t==='light'||t==='dark'){var c=t==='dark'?'${THEME_COLOR.dark}':'${THEME_COLOR.light}';document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=c})}else{t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();`;
+export const APPEARANCE_BOOT_SCRIPT = `(function(){var f='system';try{f=localStorage.getItem('${KEYS.font}')==='browser'?'browser':'system'}catch(e){}document.documentElement.setAttribute('data-font',f);try{var t=localStorage.getItem('${KEYS.theme}');if(t==='light'||t==='dark'){var c=t==='dark'?'${THEME_COLOR.dark}':'${THEME_COLOR.light}';document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=c})}else if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}else{t='${DEFAULT_THEME}'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','${DEFAULT_THEME}')}})();`;
 
 // changelog red dot
 function getChangelogSeen(): string | null {
@@ -368,7 +374,7 @@ export interface ExportBundle {
 
 export function exportBundle(): ExportBundle {
   const pref = getThemePreference();
-  return { version: 1, starred: getStarred(), read: getReadIds(), theme: pref ?? "auto", font: getFontPreference() ?? "system" };
+  return { version: 1, starred: getStarred(), read: getReadIds(), theme: pref === "light" || pref === "dark" ? pref : "auto", font: getFontPreference() ?? "system" };
 }
 
 export interface ImportReport {
@@ -448,8 +454,10 @@ function mergeLocalData(incoming: { starred: unknown[]; read: unknown[]; theme: 
     const readFailed = !writeRaw(KEYS.read, JSON.stringify([...readIds, ...readAdditions.slice(0, readRoom)]));
 
     let themeApplied = false;
-    if (!getThemePreference() && (incoming.theme === "light" || incoming.theme === "dark")) {
-      themeApplied = writeRaw(KEYS.theme, incoming.theme);
+    // A bundle's "auto" is this site's "system": following the OS is a choice, not the absence of one.
+    const incomingTheme = incoming.theme === "auto" ? "system" : incoming.theme;
+    if (!getThemePreference() && (incomingTheme === "light" || incomingTheme === "dark" || incomingTheme === "system")) {
+      themeApplied = writeRaw(KEYS.theme, incomingTheme);
     }
     const fontApplied = !getFontPreference() && incoming.font === "browser" && writeRaw(KEYS.font, "browser");
     cache.clear();

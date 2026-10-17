@@ -35,6 +35,8 @@ const TYPES: Record<string, string> = {
   ".txt": "text/plain; charset=utf-8",
   ".ico": "image/x-icon",
   ".map": "application/json",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
 };
 
 // A file URL, not a path: on Windows import() reads "C:\..." as a URL with the scheme "c:".

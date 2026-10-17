@@ -3,7 +3,8 @@ import { IconCheck, IconChevronDown } from "../icons";
 
 type Variant = "primary" | "secondary";
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-accent text-accent-contrast hover:bg-accent-ink disabled:opacity-45",
+  // The board's primary action is lit metal, not a flat fill: it reverses to ink on light paper (btn-silver).
+  primary: "btn-silver disabled:opacity-45",
   secondary: "border border-line-strong bg-surface text-ink-2 hover:border-ink-4 hover:text-ink disabled:opacity-50",
 };
 

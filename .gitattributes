@@ -1,0 +1,19 @@
+# 仓库里一律存 LF。服务器是 Linux，脚本带 CRLF 会报 "bad interpreter"。
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.yml  text eol=lf
+*.css  text eol=lf
+
+# 二进制，别做任何换行转换
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.mp4  binary
+*.webm binary
+*.woff2 binary
+*.gz   binary

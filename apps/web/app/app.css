@@ -62,12 +62,12 @@
   /* Radius scale: mark 5 (inline code, kbd, tiny tags and swatches), control 8 (inputs, small
      blocks), tile 10 (list rows, hover areas), card 12, panel 14 (wells, pictures), sheet 16 (dialogs,
      sheets, hero shells); pills are rounded-full. Arbitrary radii are not used. */
-  --radius-mark: 5px;
-  --radius-control: 8px;
-  --radius-tile: 10px;
-  --radius-card: 12px;
-  --radius-panel: 14px;
-  --radius-sheet: 16px;
+  --radius-mark: 6px;
+  --radius-control: 10px;
+  --radius-tile: 12px;
+  --radius-card: 16px;
+  --radius-panel: 20px;
+  --radius-sheet: 22px;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 
@@ -92,54 +92,62 @@
   --gutter-l: max(16px, env(safe-area-inset-left));
   --gutter-r: max(16px, env(safe-area-inset-right));
   color-scheme: light;
-  --bg: #faf9f6;
-  --bg-sunk: #f3f3ef;
-  --bg-muted: #e9ede9;
+  --bg: #f4f4f2;
+  --bg-sunk: #ececea;
+  --bg-muted: #e2e3e0;
   --surface: #ffffff;
-  --surface-2: #fdfdfb;
+  --surface-2: #fafaf8;
   --raised: #ffffff;
-  --sidebar: #fdfdfb;
-  --daybar: #f0f2ee;
-  --field: #eef1ed;
-  --ink: #202a30;
-  --ink-2: #303c42;
-  --ink-3: #59656b;
-  --ink-4: #657176;
-  --line: #dfe4e1;
-  --line-strong: #d1d9d5;
-  --line-soft: #e9ede9;
-  --accent: #176b75;
-  --accent-ink: #145f68;
-  --accent-soft: rgba(23, 107, 117, 0.08);
-  --accent-softer: rgba(23, 107, 117, 0.05);
+  --sidebar: rgba(250, 250, 249, 0.72);
+  --daybar: rgba(238, 238, 236, 0.82);
+  --field: #ececeb;
+  --ink: #17181a;
+  --ink-2: #333537;
+  --ink-3: #5a5d5e;
+  --ink-4: #75766f;
+  --line: rgba(28, 30, 30, 0.12);
+  --line-strong: rgba(28, 30, 30, 0.2);
+  --line-soft: rgba(28, 30, 30, 0.07);
+  --accent: #8a6a2f;
+  --accent-ink: #6f5423;
+  --accent-soft: rgba(138, 106, 47, 0.1);
+  --accent-softer: rgba(138, 106, 47, 0.05);
   --accent-contrast: #ffffff;
-  --note: #526f72;
-  --hot: #b3402a;
-  --hot-soft: rgba(179, 64, 42, 0.08);
-  --amber: #b8873a;
-  --amber-ink: #7c5a24;
-  --amber-soft: rgba(184, 135, 58, 0.1);
-  --ok: #2f7d5c;
-  --ok-soft: rgba(47, 125, 92, 0.1);
+  --note: #5f6a6e;
+  --hot: #c04a55;
+  --hot-soft: rgba(192, 74, 85, 0.1);
+  --amber: #96742c;
+  --amber-ink: #6b5320;
+  --amber-soft: rgba(150, 116, 44, 0.1);
+  --ok: #2e7d63;
+  --ok-soft: rgba(46, 125, 99, 0.1);
   --ok-ink: #2a6e51;
-  --rank-1: #b3402a;
+  --rank-1: #c04a55;
   --rank-2: #a3642f;
-  --rank-3: #96702e;
-  --rank-rest: #6b7684;
-  --shadow-card: 0 1px 2px rgba(32, 42, 48, 0.025);
-  --shadow-card-hover: 0 3px 12px rgba(32, 42, 48, 0.055);
-  --shadow-soft: 0 4px 12px rgba(28, 39, 51, 0.06);
-  --shadow-thumb: 0 1px 2px rgba(28, 39, 51, 0.1), 0 1px 1px rgba(28, 39, 51, 0.04);
-  --shadow-pop: 0 12px 32px rgba(28, 39, 51, 0.12);
-  --prose-ink: #26323a;
-  --code-bg: #f6f7f4;
-  --code-keyword: #006d77;
+  --rank-3: #8a7233;
+  --rank-rest: #75766f;
+  /* Surfaces are glass: a 160° wash, one hairline of inner light, and a deep soft drop. */
+  --card-bg: linear-gradient(160deg, #ffffff, #fbfbf9);
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 30px rgba(24, 26, 26, 0.06);
+  --card-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(138, 106, 47, 0.2), 0 14px 36px rgba(24, 26, 26, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 18px 48px rgba(24, 26, 26, 0.14);
+  --aura-1: rgba(150, 152, 148, 0.22);
+  --aura-2: rgba(150, 120, 130, 0.12);
+  --shadow-card: var(--card-shadow);
+  --shadow-card-hover: var(--card-shadow-hover);
+  --shadow-soft: 0 10px 30px rgba(24, 26, 26, 0.08);
+  --shadow-thumb: 0 1px 2px rgba(24, 26, 26, 0.12), 0 1px 1px rgba(24, 26, 26, 0.04);
+  --shadow-pop: 0 22px 56px rgba(24, 26, 26, 0.16);
+  --prose-ink: #23282a;
+  --code-bg: #f6f6f4;
+  --code-keyword: #8a6a2f;
   --code-string: #2f6f44;
   --code-number: #9a6700;
   --code-title: #6f42c1;
   --code-variable: #a13d10;
   --code-meta: #b42348;
-  --selection: rgba(23, 107, 117, 0.16);
+  --selection: rgba(138, 106, 47, 0.16);
 }
 
 @media (min-width: 961px) {
@@ -150,54 +158,62 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #13191c;
-  --bg-sunk: #182024;
-  --bg-muted: #202a2f;
-  --surface: #1a2226;
-  --surface-2: #1d272b;
-  --raised: #202a2f;
-  --sidebar: #161e21;
-  --daybar: #182024;
+  --bg: #0d0e0e;
+  --bg-sunk: #141515;
+  --bg-muted: #1b1c1c;
+  --surface: #191a1a;
+  --surface-2: #1e1f1f;
+  --raised: #242525;
+  --sidebar: rgba(16, 17, 17, 0.72);
+  --daybar: rgba(20, 21, 21, 0.78);
   --field: rgba(255, 255, 255, 0.06);
-  --ink: #e7eceb;
-  --ink-2: #d2dada;
-  --ink-3: #a5b0b3;
-  --ink-4: #89979d;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.12);
-  --line-soft: rgba(255, 255, 255, 0.06);
-  --accent: #12ccd8;
-  --accent-ink: #2ce2e8;
-  --accent-soft: rgba(18, 204, 216, 0.12);
-  --accent-softer: rgba(18, 204, 216, 0.06);
-  --accent-contrast: #000000;
-  --note: #8fb8a8;
-  --hot: #d86a52;
-  --hot-soft: rgba(216, 106, 82, 0.12);
-  --amber: #d3b26a;
-  --amber-ink: #d3b26a;
-  --amber-soft: rgba(211, 178, 106, 0.12);
-  --ok: #5fc79a;
-  --ok-soft: rgba(95, 199, 154, 0.12);
-  --ok-ink: #7fd1ad;
-  --rank-1: #d86a52;
-  --rank-2: #d18a5e;
-  --rank-3: #d3b26a;
-  --rank-rest: #7b869a;
-  --shadow-card: none;
-  --shadow-card-hover: none;
-  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --ink: #ecece9;
+  --ink-2: #d4d5d0;
+  --ink-3: #a5a6a1;
+  --ink-4: #75766f;
+  --line: rgba(228, 228, 222, 0.11);
+  --line-strong: rgba(232, 232, 226, 0.2);
+  --line-soft: rgba(228, 228, 222, 0.06);
+  --accent: #e6cf98;
+  --accent-ink: #f4e4bd;
+  --accent-soft: rgba(230, 207, 152, 0.13);
+  --accent-softer: rgba(230, 207, 152, 0.07);
+  --accent-contrast: #14150f;
+  --note: #a9b6b0;
+  --hot: #ff8090;
+  --hot-soft: rgba(255, 115, 133, 0.14);
+  --amber: #e6cf98;
+  --amber-ink: #f0dfb4;
+  --amber-soft: rgba(230, 207, 152, 0.13);
+  --ok: #6be3ad;
+  --ok-soft: rgba(107, 227, 173, 0.13);
+  --ok-ink: #9ff2cc;
+  --rank-1: #ff8090;
+  --rank-2: #e6cf98;
+  --rank-3: #ace0cf;
+  --rank-rest: #8a8b85;
+  /* The board's glass, at card weight (a hovered card lights a champagne rim) and overlay weight. */
+  --card-bg: linear-gradient(160deg, rgba(52, 53, 52, 0.52), rgba(14, 15, 15, 0.72));
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 48px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 0 0 1px rgba(230, 207, 152, 0.28), 0 22px 54px rgba(0, 0, 0, 0.42), 0 0 34px rgba(230, 207, 152, 0.08);
+  --glass-bg: linear-gradient(160deg, rgba(52, 53, 52, 0.5), rgba(14, 15, 15, 0.7));
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 60px rgba(0, 0, 0, 0.45);
+  --aura-1: rgba(120, 122, 120, 0.22);
+  --aura-2: rgba(110, 90, 100, 0.14);
+  --shadow-card: var(--card-shadow);
+  --shadow-card-hover: var(--card-shadow-hover);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
   --shadow-thumb: 0 1px 2px rgba(0, 0, 0, 0.45);
-  --shadow-pop: 0 16px 40px rgba(0, 0, 0, 0.45);
-  --prose-ink: #d7dfdf;
-  --code-bg: #10151c;
-  --code-keyword: #78dce8;
+  --shadow-pop: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --prose-ink: #dcddd9;
+  --code-bg: #0f1010;
+  --code-keyword: #e6cf98;
   --code-string: #a9dc76;
   --code-number: #ffd866;
-  --code-title: #ab9df2;
+  --code-title: #c3bcf2;
   --code-variable: #fc9867;
-  --code-meta: #ff6188;
-  --selection: rgba(18, 204, 216, 0.22);
+  --code-meta: #ff8090;
+  --selection: rgba(230, 207, 152, 0.22);
 }
 
 @layer base {
@@ -209,11 +225,17 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    background: var(--bg);
+    /* The board's aura: two wide, faint washes pinned to the viewport behind every page. */
+    background:
+      radial-gradient(ellipse 70% 55% at 20% 0%, var(--aura-1), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 90% 100%, var(--aura-2), transparent 70%),
+      var(--bg);
+    background-attachment: fixed;
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.55;
+    font-feature-settings: "tnum";
   }
   ::selection {
     background: var(--selection);
@@ -311,29 +333,327 @@
   padding-inline: var(--gutter-l) var(--gutter-r);
 }
 
-/* Cards are utilities so they take variants (lg:card: a card on desktop, a plain row on phones). */
+/* Cards are utilities so they take variants (lg:card: a card on desktop, a plain row on phones).
+   The fill is the board's glass: a 160° wash, a hairline of inner light, a deep soft drop. The blur is
+   deliberately left to `glass`: a feed shows dozens of cards and stacking backdrop filters there would
+   cost frames, while over the page's flat ground the blur would be invisible anyway. */
 @utility card {
-  background: var(--surface);
+  background: var(--card-bg);
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
 }
+/* True glass, for what floats over content: the sidebar, docks, sheets, the search overlay. */
+@utility glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+}
 /* The well: a quiet sunk panel for what navigates or annotates rather than reads (the report's 报眼,
    the hot lead's heat panel, notes on about and feedback). Radius is set where it is used. */
 @utility well {
-  background-color: var(--bg-sunk);
+  background-color: color-mix(in srgb, var(--bg-muted) 55%, transparent);
   box-shadow: inset 0 0 0 1px var(--line-soft);
-  [data-theme="dark"] & {
-    background-color: color-mix(in srgb, var(--bg-muted) 60%, transparent);
-  }
 }
 @utility card-hover {
-  transition: box-shadow 200ms var(--ease-out-quart), border-color 200ms, transform 200ms var(--ease-out-quart);
+  transition: box-shadow 260ms var(--ease-out-quart), border-color 260ms, transform 260ms var(--ease-out-quart);
   &:hover {
     box-shadow: var(--shadow-card-hover);
     border-color: var(--line-strong);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
+}
+/* The board's primary button: lit silver metal, reversed to ink on light paper. */
+@utility btn-silver {
+  background: linear-gradient(135deg, #f4f4f1, #c6c7c2);
+  color: #161716;
+  box-shadow: 0 6px 20px rgba(220, 220, 214, 0.16);
+  &:hover {
+    box-shadow: 0 6px 26px rgba(236, 236, 232, 0.3);
+  }
+  [data-theme="light"] & {
+    background: linear-gradient(135deg, #33363a, #14161a);
+    color: #f7f7f5;
+    box-shadow: 0 6px 20px rgba(20, 22, 26, 0.18);
+  }
+  [data-theme="light"] &:hover {
+    box-shadow: 0 6px 26px rgba(20, 22, 26, 0.3);
+  }
+}
+/* Headlines on the board are lit from the left: white falling into silver, closing on champagne. */
+@utility title-gradient {
+  background: linear-gradient(120deg, #ffffff 30%, #d6d7d3 62%, #e6cf98);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  [data-theme="light"] & {
+    background: linear-gradient(120deg, #17181a 30%, #4a4d4e 62%, #8a6a2f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ---- The opening scene: a lit orb with the site's sections swimming around it ----------------
+   Decoration carries no information: every jellyfish is a real link, every label its name. Phones
+   drop the shoal and keep the orb above the copy, since five videos in a 320px column is noise. */
+.home-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+  min-height: clamp(300px, 42vh, 430px);
+  margin: 2px 0 18px;
+}
+.home-stage::before {
+  content: "";
+  position: absolute;
+  inset: -38px -48px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 46% 54% at 74% 46%, rgba(226, 208, 160, 0.1), transparent 70%),
+    radial-gradient(ellipse 58% 46% at 12% 4%, rgba(180, 182, 176, 0.12), transparent 72%);
+}
+[data-theme="light"] .home-stage::before {
+  background:
+    radial-gradient(ellipse 46% 54% at 74% 46%, rgba(138, 106, 47, 0.07), transparent 70%),
+    radial-gradient(ellipse 58% 46% at 12% 4%, rgba(40, 42, 42, 0.06), transparent 72%);
+}
+.stage-orb {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  aspect-ratio: 1;
+  justify-self: center;
+}
+.orb-halo {
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(226, 228, 220, 0.4), rgba(206, 208, 200, 0.17) 42%, rgba(176, 178, 172, 0.06) 64%, transparent 80%);
+  filter: blur(26px);
+  animation: orb-breathe 7.5s ease-in-out infinite;
+}
+[data-theme="light"] .orb-halo {
+  background: radial-gradient(circle closest-side, rgba(190, 166, 116, 0.3), rgba(190, 166, 116, 0.1) 46%, transparent 74%);
+}
+.orb-vid {
+  position: absolute;
+  inset: 13%;
+  width: 74%;
+  height: 74%;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: brightness(1.05) contrast(1.05) saturate(0.92);
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 56%, rgba(0, 0, 0, 0.86) 70%, rgba(0, 0, 0, 0.42) 85%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side at 50% 50%, #000 56%, rgba(0, 0, 0, 0.86) 70%, rgba(0, 0, 0, 0.42) 85%, transparent 100%);
+}
+[data-theme="light"] .orb-vid {
+  /* The clip is a black-background stone sphere: on paper it reads as a smudge, so this theme
+     draws its own pearl instead (::before below) and keeps the video for the dark theme. */
+  display: none;
+}
+[data-theme="light"] .stage-orb::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 27%,
+    #ffffff 0%,
+    #fffbf2 13%,
+    #f5ecd6 32%,
+    #e2d3b2 58%,
+    #c8b58f 80%,
+    rgba(160, 143, 113, 0.34) 93%,
+    rgba(160, 143, 113, 0) 100%
+  );
+  box-shadow:
+    inset -16px -20px 48px rgba(112, 96, 66, 0.26),
+    inset 12px 14px 36px rgba(255, 255, 255, 0.82),
+    0 20px 50px rgba(70, 62, 46, 0.13);
+  animation: orb-breathe 7.5s ease-in-out infinite;
+}
+[data-theme="light"] .jellies {
+  z-index: 3;
+}
+/* The web fades away from the orb; over the reading column it would only get in the way. */
+.neural-field {
+  -webkit-mask-image: radial-gradient(ellipse 64% 62% at 70% 38%, #000 18%, rgba(0, 0, 0, 0.62) 50%, transparent 86%);
+  mask-image: radial-gradient(ellipse 64% 62% at 70% 38%, #000 18%, rgba(0, 0, 0, 0.62) 50%, transparent 86%);
+}
+@media (max-width: 900px) {
+  .neural-field {
+    -webkit-mask-image: radial-gradient(ellipse 96% 54% at 50% 30%, #000 22%, rgba(0, 0, 0, 0.6) 56%, transparent 88%);
+    mask-image: radial-gradient(ellipse 96% 54% at 50% 30%, #000 22%, rgba(0, 0, 0, 0.6) 56%, transparent 88%);
+  }
+}
+.jellies {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.jl {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 84px;
+  height: 84px;
+  margin-left: -42px;
+  margin-top: -42px;
+}
+/* No transform and no filter on the chain above the clip: `mix-blend-mode` only reaches the page
+   while nothing between the video and the stage opens a stacking context. */
+.jl-link {
+  position: absolute;
+  inset: 0;
+}
+.jl-vid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+  animation: jl-drift var(--dur, 8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  -webkit-mask-image: radial-gradient(ellipse 66% 68% at 50% 46%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse 66% 68% at 50% 46%, #000 58%, transparent 100%);
+  transition: filter 300ms var(--ease-out-quart);
+}
+/* The clip is a dark creature on a pale plate: `screen` keeps the glow and drops the plate, which is
+   why the dark board takes it as is. Paper cannot: screen would erase the creature and every other
+   blend leaves its plate behind, so the light theme marks each section with a bronze node instead. */
+[data-theme="light"] .jl-vid {
+  display: none;
+}
+[data-theme="light"] .jl-link::after {
+  content: "";
+  position: absolute;
+  inset: 33%;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(138, 106, 47, 0.9), rgba(138, 106, 47, 0.24) 58%, transparent 100%);
+  box-shadow: 0 0 18px rgba(138, 106, 47, 0.22);
+  animation: jl-pulse 4.6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.jl-link:hover .jl-vid,
+.jl-link:focus-visible .jl-vid {
+  filter: brightness(1.5) saturate(1.08);
+}
+.jl-label {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 10px 4px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  transition: border-color 240ms, box-shadow 240ms, color 240ms;
+}
+.jl-label em {
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+}
+.jl-link:hover .jl-label,
+.jl-link:focus-visible .jl-label {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent), 0 6px 22px rgba(0, 0, 0, 0.28);
+}
+.hub-kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.hub-title {
+  margin: 12px 0 0;
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+}
+.hub-sub {
+  margin: 14px 0 0;
+  max-width: 30em;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+.hub-meta {
+  margin: 20px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 12px;
+  color: var(--ink-4);
+}
+.hub-meta b {
+  font-weight: 500;
+  color: var(--ink-2);
+}
+@media (max-width: 767px) {
+  .home-stage {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 6px;
+    min-height: 0;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .stage-orb {
+    order: -1;
+    width: 58vw;
+    max-width: 240px;
+  }
+  .jellies {
+    display: none;
+  }
+  .hub-sub {
+    margin-inline: auto;
+    font-size: 13px;
+  }
+  .hub-meta {
+    justify-content: center;
+  }
+}
+
+@keyframes orb-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.07); opacity: 1; }
+}
+
+@keyframes jl-pulse {
+  0%, 100% { transform: scale(0.86); opacity: 0.75; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+@keyframes jl-drift {
+  0%, 100% { top: -5px; transform: rotate(-2deg); }
+  50% { top: 6px; transform: rotate(2deg); }
 }
 
 @keyframes skeleton-pulse {
