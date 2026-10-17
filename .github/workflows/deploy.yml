@@ -7,13 +7,14 @@
 # 启用前要配三样东西：
 #   1. Settings → Secrets and variables → Actions → Secrets
 #        DEPLOY_HOST     服务器 IP
-#        DEPLOY_USER     SSH 用户（一般是 root）
+#        DEPLOY_USER     SSH 用户（香港机一般是 root，Oracle 免费机是 ubuntu）
 #        DEPLOY_SSH_KEY  能登录这台机器的私钥（公钥放进服务器 ~/.ssh/authorized_keys）
 #   2. 同一页的 Variables → New repository variable
 #        DEPLOY_ENABLED = true
 #      （不设这个变量时部署会跳过而不是报红，服务器还没买之前推送不会满屏失败）
-#   3. 服务器上已经完成首次部署：/srv/gsai 是 clone 出来的仓库，.env 已生成，容器跑起来过一次。
-#      首次部署见 EAGLE GSAI-发布上线指南.md 第三节。
+#   3. 服务器上已经完成首次部署：/srv/gsai 是 clone 出来的仓库（必须有 .git —— 用
+#      deploy/hk-upload.sh 传的 tar 没有 .git，git pull 会失败），.env 已生成，容器跑起来过一次。
+#      首次部署见 EAGLE GSAI-发布上线指南.md 第三节（香港）/ 附录 A（Oracle 免费机）。
 
 name: deploy
 
@@ -30,7 +31,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: 部署到香港服务器
+    name: 部署到服务器
     runs-on: ubuntu-latest
     timeout-minutes: 40
     if: |

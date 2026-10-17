@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# 在开发机执行：把源码（可选连同镜像）传到香港服务器
+# 在开发机执行：把源码（可选连同镜像）传到目标服务器（香港机 / Oracle ARM 机都适用）
 #
 #   HOST=1.2.3.4 ./deploy/hk-upload.sh
 #   HOST=1.2.3.4 WITH_IMAGE=1 ./deploy/hk-upload.sh   # 2G 内存的机器推荐带上镜像，跳过服务器构建
+#   HOST=<Oracle IP> SSH_USER=ubuntu ./deploy/hk-upload.sh
 #
 # 排除 node_modules / .git / .env / .data：.env 里有密钥，必须在服务器上单独生成。
+# ⚠️ WITH_IMAGE=1 只在同架构时可用。Oracle 免费机是 arm64，本机产出的是 amd64 镜像，
+#    传过去 docker load 能成功但一跑就 exec format error，必须在服务器上 build。
 
 set -euo pipefail
 
