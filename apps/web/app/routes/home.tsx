@@ -45,8 +45,9 @@ export default function Home() {
       <ActiveFilters base="/" category={filters.category} channel={filters.channel} tag={filters.tag} />
       {front && <HomeStage />}
       <div className="hidden lg:block">
-        {!front && <h1 className="text-[24px] font-semibold leading-[1.3] text-ink">{title}</h1>}
-        <div className={front ? "mb-5 flex items-center justify-between gap-4" : "mb-5 mt-4 flex items-center justify-between gap-4"}>
+        {/* The stage above is decoration; the page still needs a visible section title for the list below. */}
+        <h1 className="text-[24px] font-semibold leading-[1.3] text-ink">{title}</h1>
+        <div className={front ? "mb-5 mt-3 flex items-center justify-between gap-4" : "mb-5 mt-4 flex items-center justify-between gap-4"}>
           <CategoryTabs base="/" category={filters.category} channel={filters.channel} layoutId="home-cat-desk" className="min-w-0" />
           <SearchField keep={{ category: filters.category }} />
         </div>
