@@ -22,24 +22,31 @@ export function HomeStage() {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Phones hide the stage (see home.tsx): playing here would still pull the 8 MB orb over mobile data.
+    const desktop = window.matchMedia("(min-width: 1024px)");
     const videos = Array.from(ref.current?.querySelectorAll("video") ?? []);
+    const pause = () => {
+      for (const video of videos) video.pause();
+    };
     const play = () => {
-      if (reduce.matches) return;
+      if (reduce.matches || !desktop.matches) return;
       for (const video of videos) void video.play().catch(() => {});
     };
     const onMotion = () => {
-      if (reduce.matches) for (const video of videos) video.pause();
+      if (reduce.matches || !desktop.matches) pause();
       else play();
     };
     const onVisibility = () => {
-      if (document.hidden) for (const video of videos) video.pause();
+      if (document.hidden) pause();
       else play();
     };
     play();
     reduce.addEventListener("change", onMotion);
+    desktop.addEventListener("change", onMotion);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       reduce.removeEventListener("change", onMotion);
+      desktop.removeEventListener("change", onMotion);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);

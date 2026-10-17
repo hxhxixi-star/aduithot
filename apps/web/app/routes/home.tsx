@@ -43,7 +43,12 @@ export default function Home() {
       {/* Phones: the bar (精选 | 全部, filter, search), the filter in use, today's hot topics, the feed. */}
       <FeedBar base="/" category={filters.category} channel={filters.channel} />
       <ActiveFilters base="/" category={filters.category} channel={filters.channel} tag={filters.tag} />
-      {front && <HomeStage />}
+      {/* Desktop only: on a phone the hero crowded out the list and delayed navigation. */}
+      {front && (
+        <div className="hidden lg:block">
+          <HomeStage />
+        </div>
+      )}
       <div className="hidden lg:block">
         {/* The stage above is decoration; the page still needs a visible section title for the list below. */}
         <h1 className="text-[24px] font-semibold leading-[1.3] text-ink">{title}</h1>
