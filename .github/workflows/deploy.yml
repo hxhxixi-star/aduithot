@@ -1,17 +1,26 @@
-# 推送到 main 后：先类型检查，通过再 SSH 到服务器重建并重启。
+# 发布：等上游的 Check（typecheck + 全量测试 + docker smoke）通过后，SSH 到服务器重建并重启。
 #
-# 需要在仓库 Settings → Secrets and variables → Actions 里配置三个 secret：
-#   DEPLOY_HOST     服务器 IP
-#   DEPLOY_USER     SSH 用户（一般是 root）
-#   DEPLOY_SSH_KEY  能登录这台机器的私钥（记得把公钥加到服务器 ~/.ssh/authorized_keys）
+# 为什么不在这个文件里再跑一遍检查：仓库自带的 .github/workflows/check.yml 已经在 push 到 main 时
+# 跑了 typecheck、后端/前端测试和 docker compose 冒烟，重复一遍只是浪费 runner 时间。
+# 这里用 workflow_run 挂在它后面，它绿了才部署。
 #
-# 服务器上要已经完成首次部署：代码在 /srv/gsai，.env 已生成，容器跑起来过一次。
-# 首次部署见 EAGLE GSAI-发布上线指南.md。
+# 启用前要配三样东西：
+#   1. Settings → Secrets and variables → Actions → Secrets
+#        DEPLOY_HOST     服务器 IP
+#        DEPLOY_USER     SSH 用户（一般是 root）
+#        DEPLOY_SSH_KEY  能登录这台机器的私钥（公钥放进服务器 ~/.ssh/authorized_keys）
+#   2. 同一页的 Variables → New repository variable
+#        DEPLOY_ENABLED = true
+#      （不设这个变量时部署会跳过而不是报红，服务器还没买之前推送不会满屏失败）
+#   3. 服务器上已经完成首次部署：/srv/gsai 是 clone 出来的仓库，.env 已生成，容器跑起来过一次。
+#      首次部署见 EAGLE GSAI-发布上线指南.md 第三节。
 
 name: deploy
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Check"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -20,22 +29,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check:
-    name: 类型检查
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-          cache: npm
-      - run: npm ci --no-audit --no-fund
-      - run: npm run typecheck
-
   deploy:
-    name: 部署
-    needs: check
+    name: 部署到香港服务器
     runs-on: ubuntu-latest
+    timeout-minutes: 40
+    if: |
+      vars.DEPLOY_ENABLED == 'true' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     steps:
       - name: SSH 重建并重启
         uses: appleboy/ssh-action@v1
@@ -54,6 +54,6 @@ jobs:
             docker compose run --rm setup
             docker compose --profile https up -d
             docker image prune -f
-            echo "--- 健康检查 ---"
+            echo "--- 状态 ---"
             docker compose ps
             curl -fsS -o /dev/null -w "首页 %{http_code}\n" http://127.0.0.1:3000/
